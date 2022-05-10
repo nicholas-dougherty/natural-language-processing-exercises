@@ -36,7 +36,6 @@ Natural language processing (NLP) is the ability of a computer program to unders
 1. Text Classification:
 
 - Tag/categorize text according to its content.
-- 
 - Applications: 
     - sentiment analysis
     - topic labeling
@@ -48,9 +47,7 @@ Natural language processing (NLP) is the ability of a computer program to unders
 2. Topic Modeling:
 
 - Discover the abstract “topics” that occur in a collection of documents.
-- 
 - Latent Dirichlet Allocation (LDA) is a commonly used algorithm.
-- 
 - Similar to text classification but is unsupervised, like clustering, so the set of possible topics are unknown prior. The topics are defined during topic model generation.
 ***
 ##### The General Process Flow
