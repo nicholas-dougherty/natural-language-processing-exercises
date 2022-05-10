@@ -117,3 +117,35 @@ def remove_stopwords(text, extra_words = [], exclude_words = []):
 
 #------------------------------------------------
     
+def prep_article_data(df, column, extra_words=[], exclude_words=[]):
+    '''
+    This UDF processes a DataFrame and string name for a text column;  
+    optionally passes lists for extra_words and exclude_words.
+    Returns a DataFrame with the following aspects for the text article:
+    title; the original text; and the text stemmed, lemmatized,cleaned, tokenized,
+    & with stopwords removed.
+    '''
+    # create a column called 'clean' with the previously established UDFs.
+    df['clean'] = df[column].apply(basic_clean)\
+                            .apply(tokenize)\
+                            .apply(remove_stopwords, 
+                                   extra_words=extra_words, 
+                                   exclude_words=exclude_words)
+    # create a column called 'stemmed' with the previously established UDFs.
+    df['stemmed'] = df[column].apply(basic_clean)\
+                            .apply(tokenize)\
+                            .apply(stem)\
+                            .apply(remove_stopwords, 
+                                   extra_words=extra_words, 
+                                   exclude_words=exclude_words)
+    # create a column called 'lemmatize' with the previously established UDFs.
+    df['lemmatized'] = df[column].apply(basic_clean)\
+                            .apply(tokenize)\
+                            .apply(lemmatize)\
+                            .apply(remove_stopwords, 
+                                   extra_words=extra_words, 
+                                   exclude_words=exclude_words)
+    
+    return df[['title', column,'clean', 'stemmed', 'lemmatized']]
+
+# -----------------------------------------------
