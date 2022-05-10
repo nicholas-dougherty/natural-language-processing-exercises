@@ -129,7 +129,7 @@ def get_blog_article_urls():
     # headers must be included. Requests.get retrieves the content. 
     response = get('https://codeup.com/blog/', headers=headers)
     # The soupy star from previous UDFs. Bowling for itself. 
-    soup = BeautifulSoup(response.text)
+    soup = BeautifulSoup(response.text, features='lxml')
     # the key to gaining each url for/in; set as a list variable.
     urls = [a.attrs['href'] for a in soup.select('a.more-link')]
     # returns a list of urls for use in the following. 
@@ -153,14 +153,15 @@ def parse_blog_article(soup):
 def get_blog_articles(use_cache=True):
     if os.path.exists('codeup_blog_articles.json') and use_cache:
         return pd.read_json('codeup_blog_articles.json')
-
+    
+    headers = {'user-agent': 'Innis Codeup Data Science'}
     urls = get_blog_article_urls()
     articles = []
 
     for url in urls:
         print(f'fetching {url}')
-        response = requests.get(url, headers=headers)
-        soup = BeautifulSoup(response.text)
+        response = get(url, headers=headers)
+        soup = BeautifulSoup(response.text, features='lxml')
         articles.append(parse_blog_article(soup))
 
     df = pd.DataFrame(articles)
