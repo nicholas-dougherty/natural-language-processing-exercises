@@ -47,18 +47,22 @@ def tokenize(string):
     return tokenized_string
 
 
-def tokenize(string):
+def stem(text):
     """
-    This function takes in a string and
-    returns it in its tokenized form.  
+    Stemmers remove morphological affixes from words, leaving only the word stem.
+    As such, this UDF is applied on a word-by-word basis, deciding what the conjugation
+    is doing which aspect should be cut off. Looping or list-comprehension is 
+    needed to handle multiple texts in a single executable line, and is included here.
     """
-    # Create the tokenizer
-    # The tok-tok tokenizer is a simple, general tokenizer, where the input has 
-    # one sentence per line; thus only the final period is tokenized.
-    tokenizer = nltk.tokenize.ToktokTokenizer()
-    # Use the tokenizer's tokenization to the inputted string, ensure it returns as a string.
-    tokenized_string = tokenizer.tokenize(string, return_str = True)
-    return tokenized_string
+    # Create porter stemmer.
+    ps = nltk.porter.PorterStemmer()
+    # use list-comprehension +> stem each word for the words inside the entire document
+    # split by the default, which is a single space. 
+    stems = [ps.stem(word) for word in text.split()]
+    # glue it back together with spaces, as it was before. 
+    # Join our lists of words into a string again; assign to a variable to save changes
+    text_stemmed = ' '.join(stems)
+    return text_stemmed
 
 #------------------------------------------------
 
