@@ -153,3 +153,21 @@ def prep_article_data(df, column, extra_words=[], exclude_words=[]):
     return df[['title', column,'clean', 'stemmed', 'lemmatized']]
 
 # -----------------------------------------------
+
+def prepare_data(df, column, additional_stopwords=[]):
+    '''
+    This function take in a df and the name (in string) for the text column 
+    with and option to pass lists for additional stopwords
+    returns a df with the  original text, cleaned (tokenized and stopwords removed),
+    stemmed text, lemmatized text.
+    '''
+    df['clean'] = df[column].apply(basic_clean)\
+                            .apply(tokenize)\
+                            .apply(remove_stopwords, 
+                                   additional_stopwords=additional_stopwords)
+    
+    df['stemmed'] = df['clean'].apply(stem)
+    
+    df['lemmatized'] = df['clean'].apply(lemmatize)
+    
+    return df
